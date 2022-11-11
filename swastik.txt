@@ -1,0 +1,42 @@
+create database insurance;
+use insurance;
+create table person
+(driver_id char(10),
+name varchar(10),
+address varchar(25),
+primary key(driver_id)
+);
+create table car
+(reg_num char(10),
+model varchar(10),
+year year,
+primary key(reg_num)
+);
+desc person;
+create table owns
+(driver_id char(10),
+reg_num char(10),
+primary key(driver_id,reg_num),
+foreign key(driver_id) references person(driver_id) on delete cascade,
+foreign key(reg_num) references car(reg_num) on delete cascade);
+
+create table accident
+(report_num int,
+location varchar(10),
+accident_date date,
+primary key(report_num));
+desc accident;
+create table participated
+(driver_id char(10),
+reg_num char(10),
+report_num int,
+damage_amount int,
+primary key(driver_id,reg_num,report_num),
+foreign key(driver_id) references person(driver_id),
+foreign key(reg_num) references car(reg_num),
+foreign key(report_num) references accident(report_num));
+insert into person values('a01','richard','srinivas nagar'),('a02','pradeep','rajaji nagar'),('a03','smith','asok nagar'),('a04','venu','n r colony'),('a05','jhon','hanumanth nagar');
+insert into car values('KAO52250','Indica','1990'),('KAO31181','Lancer','1957'),('KAO95477','Toyota','1998'),('KAO53408','Honda','2008'),('KAO41702','Audi','2005');
+insert into owns values('a01','KAO52250'),('a02','KAO53408'),('a03','KAO31181'),('a04','KAO95477'),('a05','KAO41702');
+insert into accident values('11','Mysore Road','2003-01-01'),('12','South end Circle ','2004-02-02'),('13','Bull temple Road','2003-01-21'),('14','Mysore Road','2008-02-17'),('15','Kanakpura Road','2005-03-04');
+insert into participated values('a01','KAO52250','11','10000'),('a02','KAO53408','12','50000'),('a03','KAO95477','13','25000'),('a04','KAO31181','14','3000'),('a05','KAO41702','15','5000');
